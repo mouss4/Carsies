@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AuctionService.Entities
 {
     [Table("Items")]
     public class Item
     {
+        [Key]
         public Guid Id { get; set; }
         public required string Make { get; set; }
         public required string Model { get; set; }
