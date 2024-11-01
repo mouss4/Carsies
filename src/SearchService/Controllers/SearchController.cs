@@ -50,7 +50,7 @@ namespace SearchService.Controllers
             var result = await query.ExecuteAsync();
 
             return Ok(new {
-                pageCont = result.PageCount,
+                pageCount = result.PageCount,
                 totalCount = result.TotalCount,
                 results = result.Results,
             });
