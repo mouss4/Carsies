@@ -8,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddScoped<IAuctionRepository,  AuctionRepository>();
+
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<AuctionDbContext>(opt =>
@@ -67,3 +69,5 @@ catch (Exception e)
 }
 
 app.Run();
+
+public partial class Program {}
