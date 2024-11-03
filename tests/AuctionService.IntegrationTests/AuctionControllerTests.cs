@@ -1,24 +1,19 @@
 ﻿using AuctionService.Data;
 using AuctionService.DTOs;
-using AuctionService.IntegrationTest.Fixtures;
+using AuctionService.IntegrationTests.Fixtures;
 using AuctionService.IntegrationTests.Util;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AuctionService.IntegrationTest
+namespace AuctionService.IntegrationTests
 {
-    public class AuctionControllerTests : IClassFixture<CustomWebAppFactory>, IAsyncLifetime
+    [Collection("Shared collection")]
+    public class AuctionControllerTests : IAsyncLifetime
     {
         private readonly CustomWebAppFactory _factory;
         private readonly HttpClient _httpClient;
-        private const string GT_ID = "afbee524-5972-4075-8800-7d1f9d7b0a0c";
+        private const string _gT_ID = "afbee524-5972-4075-8800-7d1f9d7b0a0c";
 
         public AuctionControllerTests(CustomWebAppFactory factory)
         {
@@ -44,7 +39,7 @@ namespace AuctionService.IntegrationTest
             // Arrange
 
             // Act
-            var response = await _httpClient.GetFromJsonAsync<AuctionDto>($"api/auctions/{GT_ID}");
+            var response = await _httpClient.GetFromJsonAsync<AuctionDto>($"api/auctions/{_gT_ID}");
 
             // Assert
             Assert.Equal("GT", response.Model);
@@ -130,7 +125,7 @@ namespace AuctionService.IntegrationTest
             _httpClient.SetFakeJwtBearerToken(AuthHelper.GetBearerForUser("bob"));
 
             // act
-            var response = await _httpClient.PutAsJsonAsync($"api/auctions/{GT_ID}", updatedAuction);
+            var response = await _httpClient.PutAsJsonAsync($"api/auctions/{_gT_ID}", updatedAuction);
 
             // assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -144,7 +139,7 @@ namespace AuctionService.IntegrationTest
             _httpClient.SetFakeJwtBearerToken(AuthHelper.GetBearerForUser("notbob"));
 
             // act
-            var response = await _httpClient.PutAsJsonAsync($"api/auctions/{GT_ID}", updatedAuction);
+            var response = await _httpClient.PutAsJsonAsync($"api/auctions/{_gT_ID}", updatedAuction);
 
             // assert
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
@@ -162,7 +157,7 @@ namespace AuctionService.IntegrationTest
             return Task.CompletedTask;
         }
 
-        private CreateAuctionDto GetAuctionForCreate()
+        private static CreateAuctionDto GetAuctionForCreate()
         {
             return new CreateAuctionDto
             {
